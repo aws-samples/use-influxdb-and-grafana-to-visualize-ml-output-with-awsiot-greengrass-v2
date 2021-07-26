@@ -22,8 +22,8 @@ _setEnv()
   SRC_FOLDER="src"
   ARTIFACTS_ARCHIVE_FILE_NAME="inferencing-model"
   MAIN_ARTIFACT_FILE="inference.py"
-  MODEL_NAME='model-LINUX_X86_64'
-  NEO_COMPILED_MODEL_PATH="s3://$S3_BUCKET/models/zipped/model-LINUX_X86_64.zip"
+  MODEL_NAME='model'
+  NEO_COMPILED_MODEL_PATH="s3://$S3_BUCKET/$COMPILATION_NAME/output/model-LINUX_X86_64.zip"
   DEPLOYMENT_CONFIG_TEMPLATE_FILE="deployment-configuration-template.json"
   DEPLOYMENT_CONFIG_FILE="deployment-configuration.json"
   index_val=-1
@@ -211,10 +211,13 @@ _getNextVersion ${CURRENT_VERSION_NUMBER} 2
 RECIPE_FILE_NAME="${COMPONENT_NAME}-${NEXT_VERSION}.yaml"
 PREVIOUS_RECIPE_FILE_NAME="${COMPONENT_NAME}-${CURRENT_VERSION_NUMBER}.yaml"
 
+echo '!!!!!!!!!!!!!!!!!!!!!!!!'
 echo ${COMPONENT_NAME}
 echo ${NEXT_VERSION}
 echo ${SRC_FOLDER}
 echo ${RECIPE_FILE_NAME}
+echo '!!!!!!!!!!!!!!!!!!!!!!!!'
+
 
 ## Removing old recipe file from the local disk
 if test -f "${PREVIOUS_RECIPE_FILE_NAME}"; then
