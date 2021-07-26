@@ -1,0 +1,29 @@
+---
+RecipeFormatVersion: '2020-01-25'
+ComponentName: '$component_name'
+ComponentVersion: '$component_version_number'
+ComponentDescription: Component that runs CV program at the edge
+ComponentPublisher: Amazon Web Services
+ComponentConfiguration:
+  DefaultConfiguration:
+    accessControl:
+      aws.greengrass.ipc.pubsub:
+        '$component_name:pubsub:1':
+          policyDescription: Allows access to publish to all topics.
+          operations:
+            - 'aws.greengrass#PublishToTopic'
+          resources:
+            - '*'
+Manifests:
+  - Platform:
+      os: linux
+    Lifecycle:
+      Run:
+        Script: python3 -u {artifacts:decompressedPath}/$artifacts_zip_file_name/$artifacts_entry_file --model {artifacts:decompressedPath}/$model_name/
+      setenv:
+        PYTHONPATH: '{artifacts:decompressedPath}/$artifacts_zip_file_name'
+    Artifacts:
+      - URI: $compiled_model_path
+        Unarchive: ZIP
+      - URI: $s3_path/$next_version/$artifacts_zip_file_name.zip
+        Unarchive: ZIP

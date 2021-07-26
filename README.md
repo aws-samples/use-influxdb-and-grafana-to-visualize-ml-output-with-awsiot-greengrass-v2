@@ -1,15 +1,7 @@
 ## My Project
 
-TODO: Fill this README out!
+This repository compliments the blogpost `How to use InfluxDB and Grafana to visualize your ML output at the edge with Greengrass v2`.
 
-Be sure to:
-
-* Change the title in this README
-* Edit your repository description on GitHub
-
-## Security
-
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
 
 ## License
 
