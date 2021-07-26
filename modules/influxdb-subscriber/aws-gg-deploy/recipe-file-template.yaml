@@ -21,7 +21,7 @@ Manifests:
       Install:
         pip3 install awsiotsdk influxdb_client
       Run:
-        Script: python3 -u {artifacts:decompressedPath}/$artifacts_entry_file
+        Script: python3 -u {artifacts:decompressedPath}/$artifacts_zip_file_name/$artifacts_entry_file
       setenv:
         PYTHONPATH: '{artifacts:decompressedPath}/$artifacts_zip_file_name'
     Artifacts:
