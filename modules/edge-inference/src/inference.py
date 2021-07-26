@@ -11,9 +11,11 @@ from awsiot.greengrasscoreipc.model import (
 import json
 import sys
 import argparse
+import base64
+
 
 TIMEOUT = 10
-PUBLISH_TOPIC = '/inferencingResults'
+PUBLISH_TOPIC = 'from/MLoutput/client'
 
 def softmax(x):
     """Compute softmax values for each sets of scores in x."""
@@ -72,10 +74,12 @@ def main():
             res = softmax(model.run(transposed)[0][0])
             pred = np.argmax(res)
             prob = res[pred]
-            outgoing_msg = {'Prediction': pred, 'Probability': prob}
-            print(pred, prob)
+            image_bytes = None
+            with open(args.input, "rb") as imageFile:
+                image_bytes = base64.b64encode(imageFile.read()).decode('utf8')
+            outgoing_msg = {'Prediction': str(pred), 'Probability': str(prob), 'Picture': image_bytes}
             publishResults(ipc_client, PUBLISH_TOPIC, outgoing_msg)
-            time.sleep(2)
+            time.sleep(5)
         except Exception as e:
             print(e)
 
