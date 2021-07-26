@@ -48,7 +48,7 @@ def main():
                        help='the path to model', default="from/MLoutput/client")
     parser.add_argument('-token', '--token_string',
                        type=str,
-                       help='token authentification', default="bgu9Ws-IZ2FErckdSHvYXJAJmOwIDNZkMy2CP70AwzBGwLnzItDnUkDSyOYyS7_LRwfuL0wylecFE6yP5bsjNQ==")
+                       help='token authentification', default="tCGBk3phIJGWZ2ovMVDuYfN2LCVu8KatBXGLoI9cpwMXZMr--RcWCn4s8LafAF6BjtAWYTp71Bo4F0UvZ-amSA==")
     parser.add_argument('-u', '--url',
                        type=str,
                        help='url', default='http://localhost:8086')

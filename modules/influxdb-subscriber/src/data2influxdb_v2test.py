@@ -29,7 +29,7 @@ if __name__ == '__main__':
     print('Data to InfluxDB bridge')
     message = {}
     #InfluxdB Database information
-    token_string = 'bgu9Ws-IZ2FErckdSHvYXJAJmOwIDNZkMy2CP70AwzBGwLnzItDnUkDSyOYyS7_LRwfuL0wylecFE6yP5bsjNQ=='
+    token_string = 'tCGBk3phIJGWZ2ovMVDuYfN2LCVu8KatBXGLoI9cpwMXZMr--RcWCn4s8LafAF6BjtAWYTp71Bo4F0UvZ-amSA=='
     bucket_name = 'mloutput'
     url='http://localhost:8086'
     org='ggv2demo'
