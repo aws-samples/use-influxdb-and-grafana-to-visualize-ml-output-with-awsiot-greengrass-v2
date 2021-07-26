@@ -22,12 +22,12 @@ OUTGOING_MSG_FORMAT = {
     'CameraDeviceName': 'AWS Panorama Camera',
     'JudegedBy': "Resnet-18",
     'CameraTrigger': '1',
-    "CaptureStatusCode": '200',
-    "CaptureStatusMessage": "Ok",
-    "RetryCount": '0',
-    "InferenceTotalTime": {},
-    "InferenceStartTime": {},
-    "InferenceEndTime":{},
+    'CaptureStatusCode': '200',
+    'CaptureStatusMessage': 'Ok',
+    'RetryCount': '0',
+    'InferenceTotalTime': {},
+    'InferenceStartTime': {},
+    'InferenceEndTime':{},
     'Prediction': {},
     'Probability': {},
     'Picture': {}
@@ -100,8 +100,14 @@ def main():
             total_time = delta.total_seconds() * 1000
             start_time_str = start_time.strftime("%Y-%m-%d %H:%M:%S.%f")
             end_time_str = end_time.strftime("%Y-%m-%d %H:%M:%S.%f")
-
-            outgoing_msg = OUTGOING_MSG_FORMAT.format(total_time, start_time_str, end_time_str, str(pred), str(prob), image_bytes)
+            
+            outgoing_msg = OUTGOING_MSG_FORMAT
+            outgoing_msg['InferenceTotalTime'] = total_time
+            outgoing_msg['InferenceStartTime'] = start_time_str
+            outgoing_msg['InferenceEndTime'] = end_time_str
+            outgoing_msg['Prediction'] = str(pred)
+            outgoing_msg['Probability'] = str(prob)
+            outgoing_msg['Picture'] = image_bytes
             publishResults(ipc_client, PUBLISH_TOPIC, outgoing_msg)
             time.sleep(5)
         except Exception as e:
