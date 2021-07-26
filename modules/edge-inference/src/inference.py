@@ -68,6 +68,7 @@ def main():
     while True:
         try:
             input_image = Image.open(args.input).resize((224,224))
+            input_image.save((args.input).split('.')[0]+'_reized.jpg')
             input_matrix = (np.array(input_image) / 255 - [0.485, 0.456, 0.406])/[0.229, 0.224, 0.225]
             transposed = np.transpose(input_matrix, (2, 0, 1))
             model = dlr.DLRModel(args.model, 'cpu', 0)
@@ -75,7 +76,7 @@ def main():
             pred = np.argmax(res)
             prob = res[pred]
             image_bytes = None
-            with open(args.input, "rb") as imageFile:
+            with open(input_image, "rb") as imageFile:
                 image_bytes = base64.b64encode(imageFile.read()).decode('utf8')
             outgoing_msg = {'Prediction': str(pred), 'Probability': str(prob), 'Picture': image_bytes}
             publishResults(ipc_client, PUBLISH_TOPIC, outgoing_msg)
