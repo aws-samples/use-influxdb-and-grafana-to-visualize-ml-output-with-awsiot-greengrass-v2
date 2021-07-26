@@ -19,7 +19,7 @@ Manifests:
       os: linux
     Lifecycle:
       Run:
-        Script: python3 -u {artifacts:decompressedPath}/$artifacts_zip_file_name/$artifacts_entry_file --model {artifacts:decompressedPath}/$model_name/
+        Script: python3 -u {artifacts:decompressedPath}/$artifacts_zip_file_name/$artifacts_entry_file --model {artifacts:decompressedPath}/$model_name/ --input {artifacts:decompressedPath}/$artifacts_zip_file_name/dog.jpg
       setenv:
         PYTHONPATH: '{artifacts:decompressedPath}/$artifacts_zip_file_name'
     Artifacts:

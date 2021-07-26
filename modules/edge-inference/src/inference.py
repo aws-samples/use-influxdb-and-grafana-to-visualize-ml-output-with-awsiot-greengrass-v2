@@ -53,7 +53,7 @@ def main():
     # # reading the input arguemenets
 
     parser.add_argument('--model',
-                        help='model', default='/home/ubuntu/GIT/techstr-iiot-process-vision/source/EdgeModelNeo/model/')
+                        help='model', default='./model')
 
     parser.add_argument('--class_names',
                         help='class_names', default='./obj.names')
