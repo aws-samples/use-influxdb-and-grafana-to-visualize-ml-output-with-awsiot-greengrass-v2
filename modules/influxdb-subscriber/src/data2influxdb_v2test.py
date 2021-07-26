@@ -17,6 +17,7 @@ class write2influxdb(object):
         with InfluxDBClient(url, token=token_string, org=org) as client:
             with client.write_api(write_options=SYNCHRONOUS) as write_api:
                 print('*** Write Points ***')
+                payload_message['Picture'] = "data:image/png;base64, " + payload_message['Picture']
                 dictionary = [{"measurement": measurement_name,"tags": {tag_name: tagkey},"fields": payload_message}]
                 try:
                     print("Write")
