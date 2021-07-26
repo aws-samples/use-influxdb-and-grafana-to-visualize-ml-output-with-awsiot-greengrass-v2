@@ -12,11 +12,26 @@ import json
 import sys
 import argparse
 import base64
+from datetime import datetime
 
 
 TIMEOUT = 10
 PUBLISH_TOPIC = 'from/MLoutput/client'
 TEMP_IMG_PATH = '/dev/shm/temp.jpg'
+OUTGOING_MSG_FORMAT = {
+    'CameraDeviceName': 'AWS Panorama Camera',
+    'JudegedBy': "Resnet-18",
+    'CameraTrigger': '1',
+    "CaptureStatusCode": '200',
+    "CaptureStatusMessage": "Ok",
+    "RetryCount": '0',
+    "InferenceTotalTime": {},
+    "InferenceStartTime": {},
+    "InferenceEndTime":{},
+    'Prediction': {},
+    'Probability': {},
+    'Picture': {}
+}
 
 def softmax(x):
     """Compute softmax values for each sets of scores in x."""
@@ -68,6 +83,7 @@ def main():
     args = parser.parse_args()
     while True:
         try:
+            start_time = datetime.utcnow()
             input_image = Image.open(args.input).resize((224,224))
             input_image.save(TEMP_IMG_PATH)
             input_matrix = (np.array(input_image) / 255 - [0.485, 0.456, 0.406])/[0.229, 0.224, 0.225]
@@ -79,7 +95,13 @@ def main():
             image_bytes = None
             with open(TEMP_IMG_PATH, "rb") as imageFile:
                 image_bytes = base64.b64encode(imageFile.read()).decode('utf8')
-            outgoing_msg = {'Prediction': str(pred), 'Probability': str(prob), 'Picture': image_bytes}
+            end_time = datetime.utcnow()
+            delta = end_time - start_time
+            total_time = delta.total_seconds() * 1000
+            start_time_str = start_time.strftime("%Y-%m-%d %H:%M:%S.%f")
+            end_time_str = end_time.strftime("%Y-%m-%d %H:%M:%S.%f")
+
+            outgoing_msg = OUTGOING_MSG_FORMAT.format(total_time, start_time_str, end_time_str, str(pred), str(prob), image_bytes)
             publishResults(ipc_client, PUBLISH_TOPIC, outgoing_msg)
             time.sleep(5)
         except Exception as e:
