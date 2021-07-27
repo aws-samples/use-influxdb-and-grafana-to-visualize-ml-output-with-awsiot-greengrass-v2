@@ -2,18 +2,18 @@ from PIL import Image
 import numpy as np
 import dlr
 import time
+import json
+import sys
+import argparse
+import base64
+from datetime import datetime
+import os, random
 import awsiot.greengrasscoreipc
 from awsiot.greengrasscoreipc.model import (
     PublishToTopicRequest,
     PublishMessage,
     BinaryMessage
 )
-import json
-import sys
-import argparse
-import base64
-from datetime import datetime
-
 
 TIMEOUT = 10
 PUBLISH_TOPIC = 'from/MLoutput/client'
@@ -32,6 +32,15 @@ OUTGOING_MSG_FORMAT = {
     'Probability': {},
     'Picture': {}
 }
+
+def load_class_names(namesfile):
+    class_names = []
+    with open(namesfile, 'r') as fp:
+        lines = fp.readlines()
+    for line in lines:
+        line = line.rstrip()
+        class_names.append(line)
+    return class_names
 
 def softmax(x):
     """Compute softmax values for each sets of scores in x."""
@@ -77,14 +86,17 @@ def main():
                         help='class_names', default='./obj.names')
 
     parser.add_argument('--input',
-                        help='input file path', default='./dog.jpg')
+                        help='input folder path', default='./data')
 
 
     args = parser.parse_args()
+    class_names = load_class_names(args.class_names)
     while True:
         try:
             start_time = datetime.utcnow()
-            input_image = Image.open(args.input).resize((224,224))
+            img_path = random.choice(os.listdir(args.input))
+            print("Randomly selected image {}".formate(img_path))
+            input_image = Image.open(img_path).resize((224,224))
             input_image.save(TEMP_IMG_PATH)
             input_matrix = (np.array(input_image) / 255 - [0.485, 0.456, 0.406])/[0.229, 0.224, 0.225]
             transposed = np.transpose(input_matrix, (2, 0, 1))
@@ -105,7 +117,7 @@ def main():
             outgoing_msg['InferenceTotalTime'] = total_time
             outgoing_msg['InferenceStartTime'] = start_time_str
             outgoing_msg['InferenceEndTime'] = end_time_str
-            outgoing_msg['Prediction'] = str(pred)
+            outgoing_msg['Prediction'] = class_names[pred]
             outgoing_msg['Probability'] = str(prob)
             outgoing_msg['Picture'] = image_bytes
             publishResults(ipc_client, PUBLISH_TOPIC, outgoing_msg)
