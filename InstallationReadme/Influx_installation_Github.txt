@@ -1,0 +1,10 @@
+InfluxDB v2.0 Installation Note
+1.	Install InfluxDB v2.0 with system (The specific version used here is InfluxDB v2.0.7):
+wget https://dl.influxdata.com/influxdb/releases/influxdb2-2.0.7-amd64.deb
+sudo dpkg -i influxdb2-2.0.7-amd64.deb
+2.	Start the InfluxDB service:
+sudo service influxdb start
+3.	Restart your system and verify that the service is running correctly:
+sudo service influxdb status
+4.	Install influxdb_client Python library as a Python client to interact with InfluxDB:
+sudo pip3 install influxdb_client
