@@ -83,7 +83,7 @@ def main():
                         help='model', default='./model')
 
     parser.add_argument('--class_names',
-                        help='class_names', default='./obj.names')
+                        help='class_names', default='./labels.txt')
 
     parser.add_argument('--input',
                         help='input folder path', default='./data')
