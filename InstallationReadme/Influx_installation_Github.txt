@@ -4,7 +4,7 @@ wget https://dl.influxdata.com/influxdb/releases/influxdb2-2.0.7-amd64.deb
 sudo dpkg -i influxdb2-2.0.7-amd64.deb
 2.	Start the InfluxDB service:
 sudo service influxdb start
-3.	Restart your system and verify that the service is running correctly:
+3.	Verify that the InfluxDB service is running correctly with status as "active":
 sudo service influxdb status
 4.	Install influxdb_client Python library as a Python client to interact with InfluxDB:
 sudo pip3 install influxdb_client
