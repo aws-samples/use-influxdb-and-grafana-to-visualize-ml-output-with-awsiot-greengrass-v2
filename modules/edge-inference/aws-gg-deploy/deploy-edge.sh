@@ -205,7 +205,7 @@ _updateTheVersionInFileInS3()
 include_public_comps=true 
 _setEnv
 _exportAWSCreds
-#_installSigil
+_installSigil
 _getCurrentVersion
 _getNextVersion ${CURRENT_VERSION_NUMBER} 2
 RECIPE_FILE_NAME="${COMPONENT_NAME}-${NEXT_VERSION}.yaml"
